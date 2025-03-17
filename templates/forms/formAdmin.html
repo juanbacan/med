@@ -1,0 +1,145 @@
+{% extends 'layout/base_admin.html' %}
+{% load static %}
+
+{% block content %}
+  
+<div class="row">
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'administracion' %}{{ modulo_activo.url }}">{{ modulo_activo.nombre }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Crear {{ modulo_activo.nombre }}</li>
+            </ol>
+        </nav>
+
+        <div class="card border-0">
+            <div class="card-body">
+                <form method="POST" id="{% if not default_send_form  %}mainForm{% endif %}" action="{{ request.path }}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="{% block action %}{{ action }}{% endblock %}" />
+
+                    {% if object %}
+                        <input type="hidden" name="id" value="{{ object.id }}" />
+                    {% endif %}
+
+                    {% block form_preffix %}{% endblock %}
+                    
+                    {% include 'forms/form.html' %}
+
+                    {% block form_suffix %}{% endblock %}
+
+                    <div class="card bg-light mt-4">
+                        <div class="card-body">
+                            <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+                                <div class="d-grid d-md-flex gap-2">
+                                    <input type="submit" class="btn btn-sm btn-primary" value="Guardar" name="_save" />
+                                    <input type="submit" class="btn btn-sm btn-primary" value="Guardar y Añadir Otro" name="_addanother" />
+                                    <input type="submit" class="btn btn-sm btn-primary" value="Guardar y Continuar Editando" name="_continue" />
+                                </div>
+                                {% if object and formdeleteaction %}
+                                    <div class="d-grid d-md-flex gap-2">
+                                        <a href="javascript:" nhref="{{ request.path }}?action={{ formdeleteaction }}&id={{ object.id }}" class="btn btn-sm btn-danger formmodal">Eliminar</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if form.iconpicker %}
+    <div class="modal fade" id="iconModal" tabindex="-1" aria-labelledby="iconModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="iconModalLabel">Selecciona un icono</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Barra de búsqueda -->
+                    <div class="mb-3">
+                        <input type="text" id="iconSearch" class="form-control" placeholder="Buscar iconos por nombre...">
+                    </div>
+                    <!-- Contenedor de iconos -->
+                    <div id="icon-list" class="row"></div>
+                    <!-- Controles de paginación -->
+                </div>
+                <div class="modal-footer">
+                    <button id="prevPage" class="btn-sm btn btn-info" disabled>Anterior</button>
+                    <span id="paginationInfo" class="align-self-center"></span>
+                    <button id="nextPage" class="btn-sm btn btn-info" disabled>Siguiente</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}
+
+
+{% block extracss %}
+  <style>
+
+  </style>
+{% endblock %}
+
+{% block extrajs %}
+    {% if form.iconpicker %}
+        <script src="{% static 'assets/js/iconpicker.js' %}"></script>
+    {% endif %}
+
+    <script>
+        {% if form.prepopulated_fields %}
+            function slugify(text) {
+                return text.toString()
+                    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Elimina tildes
+                    .toLowerCase().trim()
+                    .replace(/[^a-z0-9\s-]/g, "") // Caracteres especiales
+                    .replace(/\s+/g, "-") // Reemplaza espacios por guiones
+                    .replace(/-+/g, "-"); // Evita guiones repetidos
+            }
+            ready(function() {
+                let prepopulated_fields = "{{ form.prepopulated_fields|safe }}";
+                let formattedString = prepopulated_fields
+                .replace(/'/g, '"')
+                .replace(/\(([^)]+)\)/g, '[$1]')
+                .replace(/,\]/g, "]");
+                let prepopulatedFields = JSON.parse(formattedString);
+
+                Object.keys(prepopulatedFields).forEach(function (targetFieldId) {
+                    let sourceFieldIds = prepopulatedFields[targetFieldId];
+                    let targetField = document.getElementById('id_' + targetFieldId);
+                    if (!targetField) return;
+            
+                    sourceFieldIds.forEach(function (sourceFieldId) {
+                        let sourceField = document.getElementById('id_' + sourceFieldId);
+                        if (sourceField) {
+                            sourceField.addEventListener("input", function () {
+                                targetField.value = slugify(sourceField.value);
+                            });
+                        }
+                    });
+                });
+            });
+        {% endif %}
+    </script>
+    
+    {{ form.media }}
+    {% if form.inline_formsets %}
+
+        {% include 'forms/form_inline_js.html' %}
+        
+        {% for formset in form.inline_formsets %}
+            {{ formset.media }}
+        {% endfor %}
+        
+    {% endif %}
+
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'layout/sidebar_admin.html' %}
+{% endblock %}
