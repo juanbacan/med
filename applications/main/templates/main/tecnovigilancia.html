@@ -1,0 +1,41 @@
+{% extends 'layout/base.html' %}
+
+{% load core_extras %}
+
+{% load static %}
+
+{% block extracss  %}
+    <style>
+        .table-title {
+            background-color:rgb(209, 218, 126)!important;
+        }
+        .table-color {
+            background-color:rgb(244, 241, 192)!important;
+        }
+
+    </style>
+{% endblock %}
+
+{% block extrajs %}
+    {{ block.super }}
+    {% include 'core/forms/form_inline_js.html' %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="bg-background py-5">
+        <div class="container-xl">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="h3 text-center">TECNOVIGILANCIA</h1>
+                    <h2 class="h4 text-center">REPORTE INMEDIATO DE EVENTOS O INCIDENTES ADVERSOS SERIOS</h2>
+                    <H2 class="h4 text-center">RELACIONADOS CON DISPOSITIVOS MÉDICOS DE USO HUMANO</H2>
+
+                    {% include 'main/form_tecnovigilancia.html' %}
+
+                </div>
+            </div>
+        </div>
+    </div>     
+
+{% endblock %}
