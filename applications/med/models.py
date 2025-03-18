@@ -41,6 +41,11 @@ class CHOICES_SEXO(models.TextChoices):
     M = 'M', 'M'
 
 
+class CHOICES_SEXO2(models.TextChoices):
+    F = 'F', 'Hombre'
+    M = 'M', 'Mujer'
+
+
 class CHOICES_TIPO_REACCION(models.TextChoices):
     RAM = 'RAM', 'Reacción Adversa a Medicamentos'
     FT = 'FT', 'Falta de Terapéutica'
@@ -177,11 +182,15 @@ class CHOICES_NIVEL_RIESGO(models.TextChoices):
     MODERADO_ALTO = 'MODERADO_ALTO', 'Nivel de Riesgo Medio III (Riesgo Moderado Alto)'
     ALTO = 'ALTO', 'Nivel de Riesgo Alto IV (Riesgo Alto)'
 
+class CHOICES_SI_NO(models.TextChoices):
+    SI = 'SI', 'Sí'
+    NO = 'NO', 'No'
+
 class PacienteTecnovigilancia(ModeloBase):
     # A.  Información del paciente
     identificacion = models.CharField(max_length=100, verbose_name='Identificación del Paciente')
     edad = models.IntegerField(verbose_name='Edad')
-    sexo = models.CharField(max_length=1, choices=CHOICES_SEXO.choices, verbose_name='Sexo', blank=False, null=False, default=None)
+    sexo = models.CharField(max_length=1, choices=CHOICES_SEXO2.choices, verbose_name='Sexo', blank=False, null=False, default=None)
     diagnostico_presuntivo_definitivo = models.TextField(verbose_name='Diagnóstico Presuntivo o definitivo del Paciente')
 
     # B. Datos de ocurrencia del evento adverso/incidente adverso
@@ -189,10 +198,10 @@ class PacienteTecnovigilancia(ModeloBase):
     ciudad = models.CharField(max_length=100, verbose_name='Ciudad')
     fecha_inicio_evento_adverso = models.DateField(verbose_name='Fecha de Inicio del Evento Adverso / incidente adverso')
     fecha_fin_evento_adverso = models.DateField(verbose_name='Fecha de Fin del Evento Adverso / incidente adverso')
-    dispositivo_utilizado_mas_una_vez = models.BooleanField(verbose_name='Indique si el dispositivo médico ha sido utilizado más de una vez')
+    dispositivo_utilizado_mas_una_vez = models.CharField(max_length=13, choices=CHOICES_SI_NO.choices, default=None)
     tiempo_contacto_dispositivo = models.CharField(max_length=100, verbose_name='Tiempo de contacto con el dispositivo médico (minutos, horas, días, meses, etc*)')
     deteccion_evento_adverso = models.CharField(max_length=13, choices=CHOICES_TIPO_DETECCION_EVENTO.choices, default=None)
-    clasificacion_evento = models.CharField(max_length=13, choices=CHOICES_CLASIFICACION_EVENTO.choices, default=None)
+    clasificacion_evento = models.CharField(max_length=20, choices=CHOICES_CLASIFICACION_EVENTO.choices, default=None)
     descripcion_evento_adverso = models.TextField(verbose_name='Descripción del evento adverso/incidente adverso')
     descripcion_historia_clinica = models.TextField(verbose_name='Descripción de la Historia Clínica')
 
@@ -206,10 +215,10 @@ class PacienteTecnovigilancia(ModeloBase):
     otro_desenlace = models.BooleanField(verbose_name='Otros (especificar)')
     causa_sospecha_provoco_evento = models.TextField(verbose_name='Causa (s) que sospeche que provocó el evento')
 
-    reporto_importador = models.BooleanField(verbose_name='Reportó el importador')
+    reporto_importador = models.CharField(max_length=10, choices=CHOICES_SI_NO.choices, default=None)
     fecha_reporto_importador = models.DateField(verbose_name='Fecha', null=True, blank=True)
 
-    envio_dispositivo_importador = models.BooleanField(verbose_name='Envío del dispositivo al importador')
+    envio_dispositivo_importador = models.CharField(max_length=10, choices=CHOICES_SI_NO.choices, default=None)
     fecha_envio_dispositivo_importador = models.DateField(verbose_name='Fecha', null=True, blank=True)
 
     # C. Identificación del dispositivo médico/equipo
@@ -225,8 +234,8 @@ class PacienteTecnovigilancia(ModeloBase):
     nombre_o_razon_importador = models.CharField(max_length=100, verbose_name='Nombre o Razón Social del Importador', null=True, blank=True)
 
     # Clasificación del dispositivo médico
-    tipo_dispositivo = models.CharField(max_length=13, choices=CHOICES_TIPO_MEDICAMENTO.choices, default=None)
-    nivel_riesgo = models.CharField(max_length=13, choices=CHOICES_NIVEL_RIESGO.choices, default=None)
+    tipo_dispositivo = models.CharField(max_length=13, choices=CHOICES_TIPO_MEDICAMENTO.choices, default=None, verbose_name='1. Tipo de Dispositivo Médico de Uso Humano')
+    nivel_riesgo = models.CharField(max_length=13, choices=CHOICES_NIVEL_RIESGO.choices, default=None, verbose_name='2. Nivel de Riesgo del Dispositivo Médico de Uso Humano')
     informacion_adicional = models.TextField(verbose_name='Información Adicional', null=True, blank=True)
 
     # Identificación del Notificador

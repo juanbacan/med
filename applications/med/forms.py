@@ -46,3 +46,24 @@ class PacienteReaccionesAdversasMedicamentosForm(ModelBaseForm):
             'origen_reporte': forms.RadioSelect(choices=CHOICES_ORIGEN_REPORTE.choices),
         }
     
+
+class PacienteTecnovigilanciaForm(ModelBaseForm):
+
+    class Meta:
+        model = PacienteTecnovigilancia
+        fields = '__all__'
+        widgets = {
+            'sexo': forms.RadioSelect(choices=CHOICES_SEXO.choices),
+            'diagnostico_presuntivo_definitivo': forms.Textarea(attrs={'rows': 3, 'cols': 40}),
+            'dispositivo_utilizado_mas_una_vez': forms.RadioSelect(choices=CHOICES_SELECCION.choices),
+            'deteccion_evento_adverso': forms.RadioSelect(choices=CHOICES_SELECCION.choices),
+            'clasificacion_evento' : forms.RadioSelect(choices=CHOICES_CLASIFICACION_EVENTO.choices),
+            'descripcion_evento_adverso': forms.Textarea(attrs={'rows': 3, 'cols': 40}),
+            'causa_sospecha_provoco_evento': forms.Textarea(attrs={'rows': 3, 'cols': 40}),
+            'reporto_importador': forms.RadioSelect(choices=CHOICES_SELECCION.choices),
+            'envio_dispositivo_importador': forms.RadioSelect(choices=CHOICES_SELECCION.choices),
+            'descripcion_dispositivo': forms.Textarea(attrs={'rows': 3, 'cols': 40}),
+            'tipo_dispositivo': forms.RadioSelect(choices=CHOICES_TIPO_MEDICAMENTO.choices),
+            'nivel_riesgo': forms.RadioSelect(choices=CHOICES_NIVEL_RIESGO.choices),
+            'informacion_adicional': forms.Textarea(attrs={'rows': 3, 'cols': 40}),
+        }

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib import messages
-from applications.med.forms import PacienteReaccionesAdversasMedicamentosForm
+from applications.med.forms import PacienteReaccionesAdversasMedicamentosForm, PacienteTecnovigilanciaForm
 from django.template.loader import render_to_string
 
 from core.notificaciones import notify_push_app_user
@@ -57,12 +57,12 @@ class PRAMView(View):
 class TecnovigilanciaView(View):
     def get(self, request, *args, **kwargs):
         context = {}
-        context['form'] = PacienteReaccionesAdversasMedicamentosForm()
-        return render(request, 'main/pram.html', context)
+        context['form'] = PacienteTecnovigilanciaForm()
+        return render(request, 'main/tecnovigilancia.html', context)
         
     def post(self, request, *args, **kwargs):
         context = {}
-        form = PacienteReaccionesAdversasMedicamentosForm(request.POST)
+        form = PacienteTecnovigilanciaForm(request.POST)
         if form.is_valid():
             print("Formulario válido:", form.cleaned_data)
             form.save()
@@ -92,4 +92,4 @@ class TecnovigilanciaView(View):
             print("Error en el formulario:", form.errors)
             messages.error(request, 'Error al guardar el formulario.')
             context['form'] = form
-            return render(request, 'main/pram.html', context)
+            return render(request, 'main/tecnovigilancia.html', context)

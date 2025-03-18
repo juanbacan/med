@@ -7,4 +7,5 @@ urlpatterns = [
     # ******************* Base *******************
     path('', HomeView.as_view(), name='home'),
     path('pram/', PRAMView.as_view(), name='pram'),
-]   
+    path('tecnovigilancia/', TecnovigilanciaView.as_view(), name='tecnovigilancia')
+]
