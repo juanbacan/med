@@ -92,10 +92,9 @@ INSTALLED_APPS = [
 
     'core.apps.CoreConfig',
     'applications.med',
+    'applications.authentication',
     'applications.main',
-    # 'applications.authentication',
-    # 'applications.main',
-    # 'applications.administracion',
+    'applications.administracion',
 ]
 
 MIDDLEWARE = [

@@ -9,7 +9,7 @@ from .models import *
 class PRAMSospechosoInline(BaseInline):
     model = PRAMSospechoso
     fields = '__all__'
-    extra = 1
+    extra = 0
     can_delete = False
     prefix = 'pram_sospechoso'
     verbose_name = 'Sospechoso'
@@ -18,13 +18,13 @@ class PRAMSospechosoInline(BaseInline):
 class PRAMConcominanteInline(BaseInline):
     model = PRAMConcominante
     fields = '__all__'
-    extra = 1
+    extra = 0
     can_delete = False
-    prefix = 'pram_sospechoso'
-    verbose_name = 'Sospechoso'
-    verbose_name_plural = 'Sospechosos'
+    prefix = 'pram_concominante'
+    verbose_name = 'Concominante'
+    verbose_name_plural = 'Concominantes'
 
-
+ 
 class PacienteReaccionesAdversasMedicamentosForm(ModelBaseForm):
     inlines = [PRAMSospechosoInline(), PRAMConcominanteInline()]
 
@@ -37,6 +37,8 @@ class PacienteReaccionesAdversasMedicamentosForm(ModelBaseForm):
             'descripcion_sospecha': forms.Textarea(attrs={'rows': 1, 'cols': 40}),
             'descripcion_historia_clinica': forms.Textarea(attrs={'rows': 5, 'cols': 40}),
             'desaparecio_al_suspender_medicamento': forms.RadioSelect(choices=CHOICES_SELECCION.choices),   
+            'reaparecio_al_administrar_nuevo_medicamento': forms.RadioSelect(choices=CHOICES_SELECCION.choices),   
+            'desaparecio_al_reducir_dosis': forms.RadioSelect(choices=CHOICES_SELECCION.choices),   
             'descripcion_condicion_importante': forms.Textarea(attrs={'rows': 3, 'cols': 40}),
             'paciente_recibio_tratamiento': forms.RadioSelect(choices=CHOICES_SELECCION.choices),
             'descripcion_tratamiento': forms.Textarea(attrs={'rows': 3, 'cols': 40}),

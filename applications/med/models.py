@@ -37,8 +37,8 @@ class Etnia(ModeloBase):
 
 
 class CHOICES_SEXO(models.TextChoices):
-    FEMENINO = 'F', 'Femenino'
-    MASCULINO = 'M', 'Masculino'
+    F = 'F', 'F'
+    M = 'M', 'M'
 
 
 class CHOICES_TIPO_REACCION(models.TextChoices):
@@ -83,14 +83,14 @@ class PacienteReaccionesAdversasMedicamentos(ModeloBase):
     # Información del paciente
     nombre = models.CharField(max_length=300, verbose_name='Nombre o iniciales del Paciente')
     edad = models.IntegerField(verbose_name='Edad')
-    sexo = models.CharField(max_length=1, choices=CHOICES_SEXO.choices, verbose_name='Sexo')
+    sexo = models.CharField(max_length=1, choices=CHOICES_SEXO.choices, verbose_name='Sexo', blank=False, null=False, default=None)
     peso = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Peso')
     talla = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Talla')
     etnia = models.ForeignKey(Etnia, on_delete=models.CASCADE)
     num_hist_clinica = models.CharField(max_length=100, verbose_name='N° Historia Clínica')
 
     # Información sobre sospecha # utilizar choices_tipo_reaccion
-    sospecha_de_reaccion = models.CharField(max_length=13, choices=CHOICES_TIPO_REACCION.choices)
+    sospecha_de_reaccion = models.CharField(max_length=13, choices=CHOICES_TIPO_REACCION.choices, default=None)
     descripcion_sospecha = models.TextField(verbose_name='Descripción de la RAM, FT, EM')
     fecha_inicio_sospecha = models.DateField(verbose_name='Fecha de Inicio')
     fecha_fin_sospecha = models.DateField(verbose_name='Fecha de Fin')
@@ -99,9 +99,9 @@ class PacienteReaccionesAdversasMedicamentos(ModeloBase):
     # Medicamento Sospechoso
 
     # Resultado del Evento Adverso
-    desaparecio_al_suspender_medicamento = models.CharField(max_length=13, choices=CHOICES_SELECCION.choices)
-    desaparecio_al_reducir_dosis = models.CharField(max_length=13, choices=CHOICES_SELECCION.choices)
-    reaparecio_al_administrar_nuevo_medicamento = models.CharField(max_length=13, choices=CHOICES_SELECCION.choices)
+    desaparecio_al_suspender_medicamento = models.CharField(max_length=13, choices=CHOICES_SELECCION.choices, default=None)
+    desaparecio_al_reducir_dosis = models.CharField(max_length=13, choices=CHOICES_SELECCION.choices, default=None)
+    reaparecio_al_administrar_nuevo_medicamento = models.CharField(max_length=13, choices=CHOICES_SELECCION.choices, default=None)
     recuperado_resuelto = models.BooleanField()
     recuperando_resolviendo = models.BooleanField()
     recuperado_resuelto_con_secuela = models.BooleanField()
@@ -118,10 +118,10 @@ class PacienteReaccionesAdversasMedicamentos(ModeloBase):
     discapacidad = models.BooleanField()
     na = models.BooleanField()
     otra_condicion_importante = models.BooleanField()
-    descripcion_condicion_importante = models.TextField()
+    descripcion_condicion_importante = models.TextField(null=True, blank=True, verbose_name='Descripción de la condición importante')
 
     # Tratamiento
-    paciente_recibio_tratamiento = models.CharField(max_length=13, choices=CHOICES_SELECCION.choices)
+    paciente_recibio_tratamiento = models.CharField(max_length=13, choices=CHOICES_SELECCION.choices, default=None)
     descripcion_tratamiento = models.TextField()
 
     # Medicamentos concomitantes o utilizados
@@ -135,10 +135,10 @@ class PacienteReaccionesAdversasMedicamentos(ModeloBase):
     provincia_notificador = models.ForeignKey(Provincia, on_delete=models.CASCADE)
     telefono_notificador = models.CharField(max_length=100)
     email_notificador = models.EmailField()
-    tipo_reporte = models.CharField(max_length=13, choices=CHOICES_TIPO_REPORTE.choices)
-    origen_reporte = models.CharField(max_length=13, choices=CHOICES_ORIGEN_REPORTE.choices)
+    tipo_reporte = models.CharField(max_length=13, choices=CHOICES_TIPO_REPORTE.choices, default=None)
+    origen_reporte = models.CharField(max_length=13, choices=CHOICES_ORIGEN_REPORTE.choices, default=None)
 
-    fecha_reporte = models.DateField(auto_now_add=True)
+    fecha_reporte = models.DateTimeField(auto_now_add=True)
 
 
     def __str__(self):

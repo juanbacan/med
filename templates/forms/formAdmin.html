@@ -12,41 +12,43 @@
             </ol>
         </nav>
 
-        <div class="card border-0">
-            <div class="card-body">
-                <form method="POST" id="{% if not default_send_form  %}mainForm{% endif %}" action="{{ request.path }}" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <input type="hidden" name="action" value="{% block action %}{{ action }}{% endblock %}" />
+        {% block customform %}
+            <div class="card border-0">
+                <div class="card-body">
+                    <form method="POST" id="{% if not default_send_form  %}mainForm{% endif %}" action="{{ request.path }}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="{% block action %}{{ action }}{% endblock %}" />
 
-                    {% if object %}
-                        <input type="hidden" name="id" value="{{ object.id }}" />
-                    {% endif %}
+                        {% if object %}
+                            <input type="hidden" name="id" value="{{ object.id }}" />
+                        {% endif %}
 
-                    {% block form_preffix %}{% endblock %}
-                    
-                    {% include 'forms/form.html' %}
+                        {% block form_preffix %}{% endblock %}
+                        
+                        {% include 'core/forms/form.html' %}
 
-                    {% block form_suffix %}{% endblock %}
+                        {% block form_suffix %}{% endblock %}
 
-                    <div class="card bg-light mt-4">
-                        <div class="card-body">
-                            <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
-                                <div class="d-grid d-md-flex gap-2">
-                                    <input type="submit" class="btn btn-sm btn-primary" value="Guardar" name="_save" />
-                                    <input type="submit" class="btn btn-sm btn-primary" value="Guardar y Añadir Otro" name="_addanother" />
-                                    <input type="submit" class="btn btn-sm btn-primary" value="Guardar y Continuar Editando" name="_continue" />
-                                </div>
-                                {% if object and formdeleteaction %}
+                        <div class="card bg-light mt-4">
+                            <div class="card-body">
+                                <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
                                     <div class="d-grid d-md-flex gap-2">
-                                        <a href="javascript:" nhref="{{ request.path }}?action={{ formdeleteaction }}&id={{ object.id }}" class="btn btn-sm btn-danger formmodal">Eliminar</a>
+                                        <input type="submit" class="btn btn-sm btn-primary" value="Guardar" name="_save" />
+                                        <input type="submit" class="btn btn-sm btn-primary" value="Guardar y Añadir Otro" name="_addanother" />
+                                        <input type="submit" class="btn btn-sm btn-primary" value="Guardar y Continuar Editando" name="_continue" />
                                     </div>
-                                {% endif %}
+                                    {% if object and formdeleteaction %}
+                                        <div class="d-grid d-md-flex gap-2">
+                                            <a href="javascript:" nhref="{{ request.path }}?action={{ formdeleteaction }}&id={{ object.id }}" class="btn btn-sm btn-danger formmodal">Eliminar</a>
+                                        </div>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
+        {% endblock customform %}
     </div>
 </div>
 
@@ -130,7 +132,7 @@
     {{ form.media }}
     {% if form.inline_formsets %}
 
-        {% include 'forms/form_inline_js.html' %}
+        {% include 'core/forms/form_inline_js.html' %}
         
         {% for formset in form.inline_formsets %}
             {{ formset.media }}

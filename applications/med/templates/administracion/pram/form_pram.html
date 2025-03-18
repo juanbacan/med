@@ -1,0 +1,18 @@
+{% extends 'forms/formAdmin.html' %}
+
+{% block extracss  %}
+    {{ block.super }}
+    <style>
+        .table-title {
+            background-color:rgb(209, 218, 126)!important;
+        }
+        .table-color {
+            background-color:rgb(244, 241, 192)!important;
+        }
+
+    </style>
+{% endblock %}
+
+{% block customform %}
+    {% include 'main/form_pram.html' %}
+{% endblock %}

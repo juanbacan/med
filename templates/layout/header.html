@@ -22,7 +22,7 @@
                             <h6 class="m-0"> Notificaciones </h6>
                         </div>
                         <div class="col-auto">
-                            <a href="{% url 'core:notificaciones' %}" class="small"> Ver Todas</a>
+                            <a href="{% url 'authentication:notificaciones' %}" class="small"> Ver Todas</a>
                         </div>
                     </div>
                 </div>
@@ -70,9 +70,9 @@
                 {% endif %}
             </div>
             <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="{% url 'core:my_usuario' %}" title="Perfil de Usuario {{ application.titulo_sitio }}"><i class="fa-solid fa-user"></i> Mi Perfil</a></li>
+                <li><a class="dropdown-item" href="{% url 'authentication:my_usuario' %}" title="Perfil de Usuario {{ application.titulo_sitio }}"><i class="fa-solid fa-user"></i> Mi Perfil</a></li>
                 {% if request.user.is_superuser %}
-                    <li><a class="dropdown-item" href="{% url 'administracion' %}" title="Panel de Administración"><i class="fa-solid fa-cog"></i> Administración</a></li>
+                    {% comment %} <li><a class="dropdown-item" href="{% url 'administracion' %}" title="Panel de Administración"><i class="fa-solid fa-cog"></i> Administración</a></li> {% endcomment %}
                 {% endif %}                
                 {% if request.session.volver_usuario %}
                     <li><a class="dropdown-item" href="{% url 'core:api_administracion' %}?action=volver_usuario" title="Panel de Administración"><i class="fa-solid fa-arrow-right-arrow-left"></i> Regresar a mi cuenta</a></li>

@@ -1,0 +1,440 @@
+
+<form method="POST" id="pram-form" action="{{ request.path }}" enctype="multipart/form-data">
+    <input type="hidden" name="action" value="{{ action }}" />
+    {% if object %}
+        <input type="hidden" name="id" value="{{ object.id }}" />
+    {% endif %}
+    {% csrf_token %}
+    <div class="table-responsive mt-5">
+        <table class="table table-bordered">
+            <tr>
+                <td class="table-title" colspan="6">
+                    <strong>1. INFORMACIÓN DEL PACIENTE</strong>
+                </td>
+                <td class="table-title" colspan="6">
+                    <strong>N° NOTIFICACIÓN</strong>
+                </td>
+            </tr>
+            <tr>
+                <td class="table-color" style="width: 20%" colspan="2">
+                    {{ form.nombre.label }}
+                    {% include 'core/forms/fieldRender.html' with field=form.nombre %}
+                </td>
+                <td class="table-color" style="width: 8%" colspan="2">
+                    {{ form.edad.label }}
+                    {% include 'core/forms/fieldRender.html' with field=form.edad %}
+                </td>
+                <td class="table-color" style="width: 7%" colspan="2">
+                    {{ form.sexo.label }}
+                    {% include 'core/forms/fieldRender.html' with field=form.sexo %}
+                </td>
+
+                <td class="table-color" style="width: 15%" colspan="1">
+                    {{ form.peso.label }} 
+                    {% include 'core/forms/fieldRender.html' with field=form.peso %}
+                </td>
+                <td class="table-color" style="width: 15%" colspan="1">
+                    {{ form.talla.label }}
+                    {% include 'core/forms/fieldRender.html' with field=form.talla %}
+                </td>
+                <td class="table-color" style="width: 15%" colspan="2">
+                    {{ form.etnia.label }}
+                    {% include 'core/forms/fieldRender.html' with field=form.etnia %}
+                </td>
+                <td class="table-color" colspan="2">
+                    {{ form.num_hist_clinica.label }}
+                    {% include 'core/forms/fieldRender.html' with field=form.num_hist_clinica %}
+                </td>
+            </tr>
+        </table>
+        <table class="table table-bordered">
+            <tr>
+                <td class="table-title" colspan="12">
+                    <div class="d-flex gap-3">
+                        <strong>2. INFORMACIÓN SOBRE SOSPECHA DE:</strong>                         
+                        {% include 'core/forms/fieldRender.html' with field=form.sospecha_de_reaccion %}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="width: 20%" class="table-color">
+                    DESCRIPCIÓN DE LA RAM, FT, EM
+                </td>
+                <td colspan="2" style="width: 15%" class="table-color">
+                    FECHA INICIO
+                </td>
+                <td colspan="2" style="width: 15%" class="table-color">
+                    FECHA FIN
+                </td>
+                <td colspan="6" style="width: 50%" class="table-color">
+                    HISTORIA CLÍNICA RELEVANTE DEL PACIENTE: <small>Enfermedades, diagnóstico, alergias, embarazo, cirugía previa, datos del laboratorio, etc.</small>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="width: 20%" class="table-color">
+                    {% include 'core/forms/fieldRender.html' with field=form.descripcion_sospecha %}
+                </td>
+                <td colspan="2" style="width: 15%" class="table-color">
+                    {% include 'core/forms/fieldRender.html' with field=form.fecha_inicio_sospecha %}
+                </td>
+                <td colspan="2" style="width: 15%" class="table-color">
+                    {% include 'core/forms/fieldRender.html' with field=form.fecha_fin_sospecha %}
+                </td>
+                <td colspan="6" style="width: 50%" class="table-color">
+                    {% include 'core/forms/fieldRender.html' with field=form.descripcion_historia_clinica %}
+                </td>
+            </tr>
+        </table>
+
+        <table class="table table-bordered mb-0">
+            <tbody>
+                <tr>
+                    <td class="table-title" colspan="12">
+                        <div class="d-flex gap-3">
+                            <strong>3. MEDICAMENTO(S) SOSPECHOSO(S):</strong>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="12" class="table-color">
+                        {% with formset=form.inline_formsets.0 %}
+                            <div class="card mb-2" id="inline-container-{{ formset.prefix }}">
+                                {{ formset.management_form }}
+                                <div class="table-responsive">
+                                    <table data-sortable class="table table-bordered table-hover" id="formset-table-{{ formset.prefix }}">
+                                        <thead>
+                                            <tr style="vertical-align: middle;">
+                                                {% for fields in formset.empty_form.visible_fields %}
+                                                    <th id="col-{{ formset.prefix }}-{{ fields.name }}" style="font-size: 14px;">{{ fields.label }}</th>
+                                                {% endfor %}
+                                                <th id="col-{{ formset.prefix }}-DELETE"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbody-{{ formset.prefix }}">
+                                            {% for form in formset %}
+                                                <tr id="{{ formset.prefix }}-{{ forloop.counter0 }}" class="inline-form">
+                                                    {% for fields in form.hidden_fields %}
+                                                        {{ fields }}
+                                                    {% endfor %}
+                                                    {% for fields in form.visible_fields %}
+                                                        <td>
+                                                            {{ fields }}
+                                                            {% if fields.errors %}
+                                                                {% for error in fields.errors %}
+                                                                    <div class="text-danger small fw-bold">{{ error }}</div>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        </td>
+                                                    {% endfor %}
+                                                    <td class="text-center">
+                                                        {% if not form.instance.pk %}
+                                                            <a href="#" class="remove-inline" onclick="removeInline(this)">
+                                                                <i class="fa-solid fa-circle-xmark" style="color: #888;"></i>
+                                                            </a>
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn btn-dark btn-xs" id="add-inline-{{ formset.prefix }}">
+                                        <i class="fa-solid fa-plus"></i>
+                                        Agregar Medicamento
+                                    </button>
+                                </div>
+                            </div>
+                        {% endwith %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="table-color text-center" colspan="8">
+                        <strong>RESULTADO DEL EVENTO ADVERSO</strong>
+                    </td>
+                    <td class="table-color text-center" colspan="4">
+                        <strong>SEVERIDAD</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-color" colspan="4">
+                        <div>
+                            <p>¿El evento adverso desapareció al suspender el medicamento? </p>
+                            {% include 'core/forms/fieldRender.html' with field=form.desaparecio_al_suspender_medicamento %}
+                        </div>
+                        <div class="mt-3">
+                            <p>¿El evento adverso desapareció al reducir la dosis del medicamento?</p>
+                            {% include 'core/forms/fieldRender.html' with field=form.desaparecio_al_reducir_dosis %}
+                        </div>
+                        <div class="mt-3">
+                            <p>¿El evento adverso reapareció al administrar de nuevo el medicamento?</p>
+                            <div id="id_reaparecio_al_administrar_nuevo_medicamento" class="d-flex gap-5">
+                             {% include 'core/forms/fieldRender.html' with field=form.reaparecio_al_administrar_nuevo_medicamento %}
+                        </div>
+                    </td>
+                    <td class="table-color" colspan="4">
+                        <div class="d-flex gap-3">
+                            {% include 'core/forms/fieldRender.html' with field=form.recuperado_resuelto %}
+                            {{ form.recuperado_resuelto.label }}
+                        </div>
+                        <div class="d-flex gap-3">
+                            {% include 'core/forms/fieldRender.html' with field=form.recuperando_resolviendo %}
+                            {{ form.recuperando_resolviendo.label }}
+                        </div>
+                        <div class="d-flex gap-3">
+                            {% include 'core/forms/fieldRender.html' with field=form.recuperado_resuelto_con_secuela %}
+                            {{ form.recuperado_resuelto_con_secuela.label }}
+                        </div>
+                        <div class="d-flex gap-3">
+                            {% include 'core/forms/fieldRender.html' with field=form.no_recuperado_no_resuelto %}
+                            {{ form.no_recuperado_no_resuelto.label }}
+                        </div>
+                        <div class="d-flex gap-3">
+                            {% include 'core/forms/fieldRender.html' with field=form.fatal %}
+                            {{ form.fatal.label }}
+                        </div>
+                        <div class="d-flex gap-3">
+                            {% include 'core/forms/fieldRender.html' with field=form.desconocido %}
+                            {{ form.desconocido.label }}
+                        </div>
+                    </td>
+                    <td class="table-color" colspan="4">
+                        <div class="d-flex gap-3">
+                            {% include 'core/forms/fieldRender.html' with field=form.muerte %}
+                            {{ form.muerte.label }}
+                        </div>
+                        <div class="d-flex gap-3">
+                            {% include 'core/forms/fieldRender.html' with field=form.hospitalizacion_prolongada %}
+                            {{ form.hospitalizacion_prolongada.label }}
+                        </div>
+                        <div class="d-flex gap-3">
+                            {% include 'core/forms/fieldRender.html' with field=form.requirio_hospitalizacion %}
+                            {{ form.requirio_hospitalizacion.label }}
+                        </div>
+                        <div class="d-flex gap-3">
+                            {% include 'core/forms/fieldRender.html' with field=form.anomalia_congenita %}
+                            {{ form.anomalia_congenita.label }}
+                        </div>
+                        <div class="d-flex gap-3">
+                            {% include 'core/forms/fieldRender.html' with field=form.amenaza_vida %}
+                            {{ form.amenaza_vida.label }}
+                        </div>
+                        <div class="d-flex gap-3">
+                            {% include 'core/forms/fieldRender.html' with field=form.discapacidad %}
+                            {{ form.discapacidad.label }}
+                        </div>
+                        <div class="d-flex gap-3">
+                            {% include 'core/forms/fieldRender.html' with field=form.na %}
+                            {{ form.na.label }}
+                        </div>
+                        <div class="d-flex gap-3">
+                            {% include 'core/forms/fieldRender.html' with field=form.otra_condicion_importante %}
+                            {{ form.otra_condicion_importante.label }}
+                        </div>
+                        <div class="mt-3">
+                            {{ form.descripcion_condicion_importante.label }}
+                            {% include 'core/forms/fieldRender.html' with field=form.descripcion_condicion_importante %}
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-bordered mt-3">
+            <tbody>
+                <tr>
+                    <td class="table-title" colspan="12">
+                        <div class="d-flex gap-3">
+                            <strong>4. TRATAMIENTO:</strong>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-color" colspan="12">
+                        <div class="d-flex gap-3">
+                            <p class="mb-0 fw-bold">PACIENTE RECIBIÓ TRATAMIENTO PARA TRATAR EL EVENTO:</p>
+                        
+                            {% include 'core/forms/fieldRender.html' with field=form.paciente_recibio_tratamiento %}
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="12" class="table-color">
+                        Describa: 
+                        {% include 'core/forms/fieldRender.html' with field=form.descripcion_tratamiento %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-bordered mb-0">
+            <tbody>
+                <tr>
+                    <td class="table-title" colspan="12">
+                        <div class="d-flex gap-3">
+                            <strong>5. MEDICAMENTOS CONCOMITANTES O UTILIZADOS:</strong>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="12" class="table-color">
+                        {% with formset=form.inline_formsets.1 %}
+                            <div class="card mb-2" id="inline-container-{{ formset.prefix }}">
+                                {{ formset.management_form }}
+                                <div class="table-responsive">
+                                    <table data-sortable class="table table-bordered table-hover" id="formset-table-{{ formset.prefix }}">
+                                        <thead>
+                                            <tr style="vertical-align: middle;">
+                                                {% for fields in formset.empty_form.visible_fields %}
+                                                    <th id="col-{{ formset.prefix }}-{{ fields.name }}" style="font-size: 14px;">{{ fields.label }}</th>
+                                                {% endfor %}
+                                                <th id="col-{{ formset.prefix }}-DELETE"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbody-{{ formset.prefix }}">
+                                            {% for form in formset %}
+                                                <tr id="{{ formset.prefix }}-{{ forloop.counter0 }}" class="inline-form">
+                                                    {% for fields in form.hidden_fields %}
+                                                        {{ fields }}
+                                                    {% endfor %}
+                                                    {% for fields in form.visible_fields %}
+                                                        <td>
+                                                            {{ fields }}
+                                                            {% if fields.errors %}
+                                                                {% for error in fields.errors %}
+                                                                    <div class="text-danger small fw-bold">{{ error }}</div>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        </td>
+                                                    {% endfor %}
+                                                    <td class="text-center">
+                                                        {% if not form.instance.pk %}
+                                                            <a href="#" class="remove-inline" onclick="removeInline(this)">
+                                                                <i class="fa-solid fa-circle-xmark" style="color: #888;"></i>
+                                                            </a>
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn btn-dark btn-xs" id="add-inline-{{ formset.prefix }}">
+                                        <i class="fa-solid fa-plus"></i>
+                                        Agregar Medicamento
+                                    </button>
+                                </div>
+                            </div>
+                        {% endwith %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-bordered mt-3 mb-0">
+            <tbody>
+                <tr>
+                    <td class="table-title" colspan="12">
+                        <div class="d-flex gap-3">
+                            <strong>6. INFORMACIÓN DEL NOTIFICADOR:</strong>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-color" colspan="2">
+                        {{ form.nombre_iniciales_notificador.label }}
+                        {% include 'core/forms/fieldRender.html' with field=form.nombre_iniciales_notificador %}
+                    </td>
+                    <td class="table-color" colspan="2">
+                        {{ form.profesion_notificador.label }}
+                        {% include 'core/forms/fieldRender.html' with field=form.profesion_notificador %}
+                    </td>
+                    <td class="table-color" colspan="2">
+                        {{ form.lugar_trabajo_notificador.label }}
+                        {% include 'core/forms/fieldRender.html' with field=form.lugar_trabajo_notificador %}
+                    </td>
+                    <td class="table-color" colspan="2">
+                        {{ form.servicio_medico_notificador.label }}
+                        {% include 'core/forms/fieldRender.html' with field=form.servicio_medico_notificador %}
+                    </td>
+                    <td class="table-color" colspan="2">
+                        {{ form.direccion_notificador.label }}
+                        {% include 'core/forms/fieldRender.html' with field=form.direccion_notificador %}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-color" colspan="3">
+                        {{ form.provincia_notificador.label }}
+                        {% include 'core/forms/fieldRender.html' with field=form.provincia_notificador %}
+                    </td>
+                    <td class="table-color" colspan="3">
+                        {{ form.telefono_notificador.label }}
+                        {% include 'core/forms/fieldRender.html' with field=form.telefono_notificador %}
+                    </td>
+                    <td class="table-color" colspan="6">
+                        {{ form.email_notificador.label }}
+                        {% include 'core/forms/fieldRender.html' with field=form.email_notificador %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-bordered mb-0">
+            <tbody>
+                <tr>
+                    <td class="table-color" colspan="6">
+                        {{ form.tipo_reporte.label }}
+                        {% include 'core/forms/fieldRender.html' with field=form.tipo_reporte %}
+                    </td>
+                    <td class="table-color" colspan="6">
+                        {{ form.origen_reporte.label }}
+                        {% include 'core/forms/fieldRender.html' with field=form.origen_reporte %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        {% for formset in form.inline_formsets %}
+            <table id="empty-inline-{{ formset.prefix }}" style="display: none;">
+                <tr id="{{ formset.prefix }}-__prefix__" class="inline-form">
+                    {% for fields in formset.empty_form.hidden_fields %}
+                        {{ fields }}
+                    {% endfor %}
+                    {% for fields in formset.empty_form.visible_fields %}
+                        <td>
+                            {{ fields }}
+                            {% if fields.errors %}
+                                {% for error in fields.errors %}
+                                    <div class="text-danger small fw-bold">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                    <td class="text-center">
+                        <a href="#" class="remove-inline" onclick="removeInline(this)">
+                            <i class="fa-solid fa-circle-xmark" style="color: #888;"></i>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        {% endfor %}
+
+    </div>
+
+    <div class="card bg-light mt-4">
+        <div class="card-body">
+            <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+                <div class="d-grid d-md-flex gap-2">
+                    <input type="submit" class="btn btn-sm btn-primary" value="Guardar" name="_save" />
+                    {% comment %} <input type="submit" class="btn btn-sm btn-primary" value="Guardar y Añadir Otro" name="_addanother" />
+                    <input type="submit" class="btn btn-sm btn-primary" value="Guardar y Continuar Editando" name="_continue" /> {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

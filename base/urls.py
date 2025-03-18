@@ -25,6 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('', include('applications.main.urls')),
+    path('', include('applications.authentication.urls')),
+    path('administracion/', include('applications.administracion.urls')),
 
     # ***************** Third party *****************
     path('accounts/', include('allauth.urls')),
