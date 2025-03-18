@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import View
 from django.contrib import messages
-from .forms import PacienteReaccionesAdversasMedicamentosForm
+from applications.med.forms import PacienteReaccionesAdversasMedicamentosForm
 
 
 class HomeView(View):
