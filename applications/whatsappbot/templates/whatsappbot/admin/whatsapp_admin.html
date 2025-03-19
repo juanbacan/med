@@ -1,0 +1,48 @@
+{% extends 'layout/base_admin.html' %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-12">
+            <div class="d-flex flex-wrap gap-3 justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="mb-0 h3"><i class="{{ modulo_activo.icon }}"></i> {{ modulo_activo.nombre }}</h1>
+                </div>
+                <div class="ms-auto">
+                    {% comment %} <a class="btn btn-sm btn-dark" href="{{ path }}?action=add"><i class="fa-solid fa-circle-plus"></i> Agregar {{ modulo_activo }}</a> {% endcomment %}
+                    <a class="btn btn-sm btn-dark formmodal" href="javascript:" nhref="{{ path }}?action=enviar_mensaje_usuario"><i class="fa-solid fa-envelope"></i> Enviar Mensaje</a>
+                </div>
+            </div>
+
+			<div style="max-width: 500px">
+				<form method="GET" role="form" action=".">
+					<div class="input-group mb-3">
+					<input type="text" id="search" name="search" value="{{ request.GET.search }}" class="form-control" placeholder="Buscar {{ modulo_activo.nombre }} ...">
+					<button type="submit" class="btn btn-dark btn-sm">Buscar <i class="fa-solid fa-magnifying-glass"></i></button>
+					</div>
+				</form>
+			</div>
+
+            <div class="card border-0 table-responsive">
+                <div class="card-body">
+                    <table class="table small table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>ChatID</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Username</th>
+                                <th>¿Es Premium?</th>
+                                <th>¿Es Admin?</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+		</div>
+	</div>
+
+{% endblock %}

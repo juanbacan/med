@@ -6,6 +6,8 @@ from django.template.loader import render_to_string
 
 from core.notificaciones import notify_push_app_user
 from core.correos import send_email_thread
+from core.whatsapp import send_whatsapp_message_thread
+
 from core.models import CustomUser, AplicacionWeb
 class HomeView(View):
     def get(self, request, *args, **kwargs):
@@ -46,6 +48,10 @@ class PRAMView(View):
                     body=template,
                     to=admin.email
                 )
+            send_whatsapp_message_thread(
+                number='0992011851',
+                message='Se ha registrado una nueva reacción adversa a un medicamento.'
+            )
             return redirect('main:home')
         else:
             print("Error en el formulario:", form.errors)
@@ -87,6 +93,11 @@ class TecnovigilanciaView(View):
                     body=template,
                     to=admin.email
                 )
+            
+            send_whatsapp_message_thread(
+                number='0992011851',
+                message='Se ha registrado una nueva tecnovigilancia.'
+            )
             return redirect('main:home')
         else:
             print("Error en el formulario:", form.errors)

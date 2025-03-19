@@ -95,6 +95,7 @@ INSTALLED_APPS = [
     'applications.authentication',
     'applications.main',
     'applications.administracion',
+    'applications.whatsappbot',
 ]
 
 MIDDLEWARE = [

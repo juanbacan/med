@@ -4,7 +4,7 @@ from applications.administracion.views import ParametrosAppView, PanelView, api,
     NotificacionesPushAppView, UsuariosView, ModulosView, AgrupacionModulosView, GroupsView, NotificacionesAppView
 
 from applications.med.views_admin import PRAMAdminView, TecnovigilanciaAdminView
-
+from applications.whatsappbot.views import WhatsappBotAdminView
 from core.utils import gestionar_modulos
 
 # Definición de las URLs del sistema
@@ -77,6 +77,15 @@ med_urls = (
     },
 )
 
+whatsappbot_urls = (
+    {
+        "nombre": "Whatsapp Bot",
+        "url": 'whatsapp/',
+        "vista": WhatsappBotAdminView.as_view(),
+        "namespace": 'admin_whatsapp',
+    },
+)
+
 
 urls_sistema = (
     {
@@ -93,6 +102,11 @@ urls_sistema = (
         "nombre": "Med",
         "url": 'med/',
         "sub_urls": med_urls,
+    },
+    {
+        "nombre": "Whatsapp Bot",
+        "url": 'whatsappbot/',
+        "sub_urls": whatsappbot_urls,
     },
 )
 
