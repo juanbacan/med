@@ -33,7 +33,7 @@ class PRAMView(View):
                 notify_push_app_user(
                     usuario_notificado=admin,
                     usuario_notifica=request.user if request.user.is_authenticated else None,
-                    url=f'administracion/med/pram/?action=edit&id={form.instance.id}/',
+                    url=f'administracion/med/pram/?action=edit&id={form.instance.id}',
                     mensaje='Se ha registrado una nueva reacción adversa a un medicamento.',
                     tipo='nueva_reaccion_adversa'
                 )
@@ -78,7 +78,7 @@ class TecnovigilanciaView(View):
                 notify_push_app_user(
                     usuario_notificado=admin,
                     usuario_notifica=request.user if request.user.is_authenticated else None,
-                    url=f'/administracion/med/tecnovigilancia/?action=edit&id={form.instance.id}/',
+                    url=f'/administracion/med/tecnovigilancia/?action=edit&id={form.instance.id}',
                     mensaje='Se ha registrado una nueva reacción adversa a un medicamento.',
                     tipo='nueva_tecnovigilancia'
                 )
