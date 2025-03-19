@@ -1,7 +1,7 @@
 
 from django import forms
 
-from applications.core.forms import BaseForm
+from core.forms import BaseForm
 
 
 class MensajeUsuarioForm(BaseForm):
