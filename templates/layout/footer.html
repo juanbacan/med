@@ -4,9 +4,9 @@
         <div class="row gy-4">
             <div class="col-md-6">
                 <div class="d-flex align-items-start gap-3">
-                    {% if application.logo_horizontal %}
+                    {% comment %} {% if application.logo_horizontal %}
                         <img src="{{ application.logo_horizontal.url }}" alt="{{ application.titulo_sitio }}" width="240">
-                    {% endif %}
+                    {% endif %} {% endcomment %}
                     <div class="small text-white mt-3">{{ application.meta_description }}</div>
                 </div>
             </div>
