@@ -41,6 +41,8 @@ with open('secrets.json') as f:
     FIREBASE_BUCKET_NAME = secrets['FIREBASE_BUCKET_NAME']
     TINYMCE_IMAGES_FOLDER = secrets['TINYMCE_IMAGES_FOLDER']
     FIREBASE_IMAGES_FOLDER = secrets['FIREBASE_IMAGES_FOLDER']
+    WHATSAPP_API_URL = secrets['WHATSAPP_API_URL']
+    WHATSAPP_API_KEY = secrets['WHATSAPP_API_KEY']
     
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
