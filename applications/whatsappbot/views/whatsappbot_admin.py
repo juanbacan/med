@@ -35,4 +35,4 @@ class WhatsappBotAdminView(ViewAdministracionBase):
     def get_enviar_mensaje_usuario(self, request, context, *args, **kwargs):
         context['form'] = MensajeUsuarioForm()
         context['title'] = "Enviar mensaje a usuarios"
-        return render(request, 'modals/formModal.html', context)
+        return render(request, 'core/modals/formModal.html', context)
