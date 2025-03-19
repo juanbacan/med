@@ -1,0 +1,18 @@
+{% extends 'forms/formAdmin.html' %}
+
+{% block extracss  %}
+    {{ block.super }}
+    <style>
+        .table-title {
+            background-color:rgb(127, 171, 251)!important;
+        }
+        .table-color {
+            background-color:rgb(222, 230, 246)!important;
+        }
+
+    </style>
+{% endblock %}
+
+{% block customform %}
+    {% include 'main/form_tecnovigilancia.html' %}
+{% endblock %}

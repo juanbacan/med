@@ -3,7 +3,7 @@ from django.urls import path
 from applications.administracion.views import ParametrosAppView, PanelView, api, NotificacionesCorreoView, \
     NotificacionesPushAppView, UsuariosView, ModulosView, AgrupacionModulosView, GroupsView, NotificacionesAppView
 
-from applications.med.views_admin import PRAMAdminView
+from applications.med.views_admin import PRAMAdminView, TecnovigilanciaAdminView
 
 from core.utils import gestionar_modulos
 
@@ -68,6 +68,12 @@ med_urls = (
         "url": 'pram/',
         "vista": PRAMAdminView.as_view(),
         "namespace": 'admin_pram',
+    },
+    {
+        "nombre": "Tecnovigilancia",
+        "url": 'tecnovigilancia/',
+        "vista": TecnovigilanciaAdminView.as_view(),
+        "namespace": 'admin_tecnovigilancia',
     },
 )
 

@@ -186,6 +186,7 @@ class CHOICES_SI_NO(models.TextChoices):
     SI = 'SI', 'Sí'
     NO = 'NO', 'No'
 
+
 class PacienteTecnovigilancia(ModeloBase):
     # A.  Información del paciente
     identificacion = models.CharField(max_length=100, verbose_name='Identificación del Paciente')
@@ -203,7 +204,6 @@ class PacienteTecnovigilancia(ModeloBase):
     deteccion_evento_adverso = models.CharField(max_length=13, choices=CHOICES_TIPO_DETECCION_EVENTO.choices, default=None)
     clasificacion_evento = models.CharField(max_length=20, choices=CHOICES_CLASIFICACION_EVENTO.choices, default=None)
     descripcion_evento_adverso = models.TextField(verbose_name='Descripción del evento adverso/incidente adverso')
-    descripcion_historia_clinica = models.TextField(verbose_name='Descripción de la Historia Clínica')
 
     muerte = models.BooleanField(verbose_name='Muerte')
     fecha_muerte = models.DateField(verbose_name='Fecha', null=True, blank=True)
@@ -248,3 +248,5 @@ class PacienteTecnovigilancia(ModeloBase):
     fecha_reporte = models.DateTimeField(auto_now_add=True)
 
 
+    def __str__(self):
+        return self.identificacion
