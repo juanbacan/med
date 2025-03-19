@@ -296,6 +296,9 @@ PWA_APP_LANG = 'es-ES'
 PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static', 'assets', 'js', 'serviceworker.js')
 
 
+AUTO_COMPLETE_APPS = ['core', 'med', 'main', 'administracion']
+
+
 if HABILITADO_FIREBASE:
     print("Cargando Firebase")
     import firebase_admin
