@@ -74,16 +74,16 @@ class TecnovigilanciaView(View):
                     usuario_notifica=request.user if request.user.is_authenticated else None,
                     url=f'/med/pram/?action=ver&id={form.instance.id}/',
                     mensaje='Se ha registrado una nueva reacción adversa a un medicamento.',
-                    tipo='nueva_reaccion_adversa'
+                    tipo='nueva_tecnovigilancia'
                 )
                 application = AplicacionWeb.objects.first()
                 context = {}
                 context['application'] = application
-                context['title'] = 'Nueva Reacción Adversa'
-                context['message'] = 'Se ha registrado una nueva reacción adversa a un medicamento.'
+                context['title'] = 'Nueva Tecnovigilancia'
+                context['message'] = 'Se ha registrado una nueva tecnovigilancia.'
                 template = render_to_string('correo/base_correo.html', context)
                 send_email_thread(
-                    subject='Nueva reacción adversa registrada',
+                    subject='Nueva tecnovigilancia registrada',
                     body=template,
                     to=admin.email
                 )
