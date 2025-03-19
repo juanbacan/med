@@ -1,10 +1,9 @@
 from django.shortcuts import render
-from applications.telegrambot.models import TelegramUser
-from applications.core.views import ViewAdministracionBase
+from core.views import ViewAdministracionBase
 from applications.whatsappbot.forms import MensajeUsuarioForm
 
-from applications.core.utils import error_json, success_json, get_redirect_url
-from applications.core.whatsapp import send_whatsapp_message
+from core.utils import error_json, success_json, get_redirect_url
+from core.whatsapp import send_whatsapp_message
 
 
 class WhatsappBotAdminView(ViewAdministracionBase):
