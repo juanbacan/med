@@ -48,7 +48,7 @@ class CHOICES_SEXO2(models.TextChoices):
 
 class CHOICES_TIPO_REACCION(models.TextChoices):
     RAM = 'RAM', 'Reacción Adversa a Medicamentos'
-    FT = 'FT', 'Falla de Terapéutica'
+    FT = 'FT', 'Falla Terapéutica'
     EM = 'EM', 'Error de Medicación'
 
 
