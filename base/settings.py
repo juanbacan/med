@@ -43,6 +43,7 @@ with open('secrets.json') as f:
     FIREBASE_IMAGES_FOLDER = secrets['FIREBASE_IMAGES_FOLDER']
     WHATSAPP_API_URL = secrets['WHATSAPP_API_URL']
     WHATSAPP_API_KEY = secrets['WHATSAPP_API_KEY']
+    WHATSAPP_SESSION_NAME = secrets['WHATSAPP_SESSION_NAME']
     
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -97,7 +98,6 @@ INSTALLED_APPS = [
     'applications.authentication',
     'applications.main',
     'applications.administracion',
-    'applications.whatsappbot',
 ]
 
 MIDDLEWARE = [

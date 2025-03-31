@@ -1,10 +1,10 @@
 from django.urls import path
 
-from applications.administracion.views import ParametrosAppView, PanelView, api, NotificacionesCorreoView, \
-    NotificacionesPushAppView, UsuariosView, ModulosView, AgrupacionModulosView, GroupsView, NotificacionesAppView
+from core.views_admin import ParametrosAppView, NotificacionesCorreoView, \
+    NotificacionesPushAppView, UsuariosView, ModulosView, AgrupacionModulosView, GroupsView, NotificacionesAppView, \
+    WhatsappBotAdminView
 
 from applications.med.views_admin import PRAMAdminView, TecnovigilanciaAdminView
-from applications.whatsappbot.views import WhatsappBotAdminView
 from core.utils import gestionar_modulos
 
 # Definición de las URLs del sistema
