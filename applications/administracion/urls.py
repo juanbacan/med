@@ -4,6 +4,7 @@ from core.views_admin import ParametrosAppView, NotificacionesCorreoView, \
     NotificacionesPushAppView, UsuariosView, ModulosView, AgrupacionModulosView, GroupsView, NotificacionesAppView, \
     WhatsappBotAdminView
 
+from applications.administracion.views.panel_view import PanelView, api
 from applications.med.views_admin import PRAMAdminView, TecnovigilanciaAdminView
 from core.utils import gestionar_modulos
 
