@@ -18,32 +18,46 @@
             <tr>
                 <td class="table-color" style="width: 20%" colspan="2">
                     {{ form.nombre.label }}
-                    {% include 'core/forms/fieldRender.html' with field=form.nombre %}
+                    <div class="object-text">
+                        {{ object.nombre }}
+                    </div>
                 </td>
                 <td class="table-color" style="width: 8%" colspan="2">
                     {{ form.edad.label }}
-                    {% include 'core/forms/fieldRender.html' with field=form.edad %}
+                    <div class="object-text">
+                        {{ object.nombre }}
+                    </div>
                 </td>
                 <td class="table-color" style="width: 7%" colspan="2">
                     {{ form.sexo.label }}
-                    {% include 'core/forms/fieldRender.html' with field=form.sexo %}
+                    <div class="object-text">
+                        {{ object.sexo }}
+                    </div>
                 </td>
 
                 <td class="table-color" style="width: 15%" colspan="1">
                     {{ form.peso.label }} 
-                    {% include 'core/forms/fieldRender.html' with field=form.peso %}
+                    <div class="object-text">
+                        {{ object.peso }}
+                    </div>
                 </td>
                 <td class="table-color" style="width: 15%" colspan="1">
                     {{ form.talla.label }}
-                    {% include 'core/forms/fieldRender.html' with field=form.talla %}
+                    <div class="object-text">
+                        {{ object.talla }}
+                    </div>
                 </td>
                 <td class="table-color" style="width: 15%" colspan="2">
                     {{ form.etnia.label }}
-                    {% include 'core/forms/fieldRender.html' with field=form.etnia %}
+                    <div class="object-text">
+                        {{ object.etnia }}
+                    </div>
                 </td>
                 <td class="table-color" colspan="2">
                     {{ form.num_hist_clinica.label }}
-                    {% include 'core/forms/fieldRender.html' with field=form.num_hist_clinica %}
+                    <div class="object-text">
+                        {{ object.num_hist_clinica }}
+                    </div>
                 </td>
             </tr>
         </table>
