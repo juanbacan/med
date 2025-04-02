@@ -38,7 +38,11 @@ class PRAMAdminView(ViewAdministracionBase):
         context['object'] = modulo = PacienteReaccionesAdversasMedicamentos.objects.get(pk=self.data.get('id'))
         context['form'] = PacienteReaccionesAdversasMedicamentosForm(instance=modulo)
         return render(request, 'administracion/pram/form_pram.html', context)
-
+    
+    def get_print(self, request, context, *args, **kwargs):
+        context['object'] = object = PacienteReaccionesAdversasMedicamentos.objects.get(pk=self.data.get('id'))
+        context['form'] = PacienteReaccionesAdversasMedicamentosForm(instance=object)
+        return render(request, 'administracion/pram/print_pram.html', context)
 
     def get_delete(self, request, context, *args, **kwargs):
         id = self.data.get('id', None)
@@ -79,9 +83,15 @@ class TecnovigilanciaAdminView(ViewAdministracionBase):
         return render(request, 'administracion/tecnovigilancia/lista.html', context)
     
     def get_edit(self, request, context, *args, **kwargs):
-        context['object'] = modulo = PacienteTecnovigilancia.objects.get(pk=self.data.get('id'))
-        context['form'] = PacienteTecnovigilanciaForm(instance=modulo)
+        context['object'] = object = PacienteTecnovigilancia.objects.get(pk=self.data.get('id'))
+        context['form'] = PacienteTecnovigilanciaForm(instance=object)
         return render(request, 'administracion/tecnovigilancia/form_tecnovigilancia.html', context)
+
+
+    def get_print(self, request, context, *args, **kwargs):
+        context['object'] = object = PacienteTecnovigilancia.objects.get(pk=self.data.get('id'))
+        context['form'] = PacienteTecnovigilanciaForm(instance=object)
+        return render(request, 'administracion/tecnovigilancia/print_tecnovigilancia.html', context)
 
 
     def get_delete(self, request, context, *args, **kwargs):

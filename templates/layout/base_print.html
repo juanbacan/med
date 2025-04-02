@@ -1,0 +1,90 @@
+{% load static %}
+{% load core_extras %}
+{% load pwa %}
+{% load webpush_notifications %}
+
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+        <meta name="facebook-domain-verification" content="6eoe57s1xtul14z6qqxi0aagaaq82o" />
+   
+        {% block meta_tags %}
+        {% endblock %}
+        
+        {% block css %}
+            <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/styles.css' %}"> 
+            <link rel="stylesheet" type="text/css" href="{% static 'core/assets/css/style.css' %}">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
+            {% block extracss %}
+            {% endblock extracss %}
+            {% block modalcss %}
+            {% endblock modalcss %}
+        {% endblock css %}
+
+    </head>
+    <body>
+        {% comment %} {% webpush_button with_class="btn btn-primary" %} {% endcomment %}
+
+        {% comment %} *********** Loading ************ {% endcomment %}
+        <div class="preloader-static" id="loading-static">
+            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
+        </div>
+        {% comment %} ******************************** {% endcomment %}
+
+
+        {% comment %} *********** Error Message ************ {% endcomment %}
+        <div class="preloader-static" id="error-static">
+            <div class="card" style="width: 400px">
+                <div class="card-header d-flex justify-content-between">
+                    <h5 id="error-title">Error</h5>
+                    <button type="button" class="btn-close" onclick="hideErrorMessage()"></button>
+                </div>
+                <div class="card-body">
+                    <div id="error-message"></div>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-primary mt-3" onclick="hideErrorMessage()">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% comment %} ******************************** {% endcomment %}
+        {% comment %} Modal para Edición de formularios {% endcomment %}
+        <div class="modal fade" tabindex="-1" aria-labelledby="ModalEdicion" aria-hidden="true" id="modalEdicion" data-bs-focus="false"></div>
+
+        {% comment %} Alertas y mensajes en el feed principal {% endcomment %}
+        {% if messages %}
+            {% for message in messages %}
+                <div style="z-index: 9999;" class="alert alert-{{ message.tags }} alert-dismissible fade show mt-4" role="alert">
+                    {{ message | safe }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+
+        {% block content %}
+        {% endblock content %}
+    </body>
+
+    <footer>
+
+        {% block javascript %}
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+            <script type="text/javascript" src="{% static 'core/assets/js/functions.js' %}"></script> 
+
+            {% block extrajs %}
+            {% endblock extrajs %}
+            
+            <script>
+                const csrf_token = "{{ csrf_token|safe }}";
+                let resetNotificacionesV = true;
+                let num_notificaciones = parseInt("{{num_notificaciones}}") || 0;
+            </script>
+            {% block modaljs %}
+            {% endblock modaljs %}
+        {% endblock javascript %}
+    </footer>
+</html>

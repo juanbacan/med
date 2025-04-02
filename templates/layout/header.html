@@ -70,10 +70,10 @@
                 {% endif %}
             </div>
             <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="{% url 'authentication:my_usuario' %}" title="Perfil de Usuario {{ application.titulo_sitio }}"><i class="fa-solid fa-user"></i> Mi Perfil</a></li>
-                {% if request.user.is_superuser %}
-                    {% comment %} <li><a class="dropdown-item" href="{% url 'administracion' %}" title="Panel de Administración"><i class="fa-solid fa-cog"></i> Administración</a></li> {% endcomment %}
-                {% endif %}                
+                {% comment %} <li><a class="dropdown-item" href="{% url 'authentication:my_usuario' %}" title="Perfil de Usuario {{ application.titulo_sitio }}"><i class="fa-solid fa-user"></i> Mi Perfil</a></li> {% endcomment %}
+                {% comment %} {% if request.user.is_superuser %} {% endcomment %}
+                    <li><a class="dropdown-item" href="{% url 'administracion' %}" title="Panel de Administración"><i class="fa-solid fa-cog"></i> Administración</a></li>
+                {% comment %} {% endif %}                 {% endcomment %}
                 {% if request.session.volver_usuario %}
                     <li><a class="dropdown-item" href="{% url 'core:api_administracion' %}?action=volver_usuario" title="Panel de Administración"><i class="fa-solid fa-arrow-right-arrow-left"></i> Regresar a mi cuenta</a></li>
                 {% endif %}
