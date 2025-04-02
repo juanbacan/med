@@ -30,24 +30,27 @@ class PRAMView(View):
             messages.success(request, 'Formulario guardado con éxito.')
             admins = CustomUser.objects.filter(is_superuser=True)
             for admin in admins:
-                notify_push_app_user(
-                    usuario_notificado=admin,
-                    usuario_notifica=request.user if request.user.is_authenticated else None,
-                    url=f'administracion/med/pram/?action=edit&id={form.instance.id}',
-                    mensaje='Se ha registrado una nueva reacción adversa a un medicamento.',
-                    tipo='nueva_reaccion_adversa'
-                )
-                application = AplicacionWeb.objects.first()
-                context = {}
-                context['application'] = application
-                context['title'] = 'Nueva Reacción Adversa'
-                context['message'] = 'Se ha registrado una nueva reacción adversa a un medicamento.'
-                template = render_to_string('correo/base_correo.html', context)
-                send_email_thread(
-                    subject='Nueva reacción adversa registrada',
-                    body=template,
-                    to=admin.email
-                )
+                try:
+                    notify_push_app_user(
+                        usuario_notificado=admin,
+                        usuario_notifica=request.user if request.user.is_authenticated else None,
+                        url=f'administracion/med/pram/?action=edit&id={form.instance.id}',
+                        mensaje='Se ha registrado una nueva reacción adversa a un medicamento.',
+                        tipo='nueva_reaccion_adversa'
+                    )
+                    application = AplicacionWeb.objects.first()
+                    context = {}
+                    context['application'] = application
+                    context['title'] = 'Nueva Reacción Adversa'
+                    context['message'] = 'Se ha registrado una nueva reacción adversa a un medicamento.'
+                    template = render_to_string('correo/base_correo.html', context)
+                    send_email_thread(
+                        subject='Nueva reacción adversa registrada',
+                        body=template,
+                        to=admin.email
+                    )
+                except Exception as e:
+                    print(f"Error al enviar notificación a {admin.email}: {e}")
             send_whatsapp_message_thread(
                 number='0992011851',
                 message='Se ha registrado una nueva reacción adversa a un medicamento.'
