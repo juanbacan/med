@@ -28,6 +28,7 @@ urlpatterns = [
     path('', include('applications.authentication.urls')),
     path('administracion/', include('applications.administracion.urls')),
 
+
     # ***************** Third party *****************
     path('accounts/', include('allauth.urls')),
     path('tinymce/', include('tinymce.urls')),

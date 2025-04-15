@@ -45,12 +45,12 @@ class NotificacionesAppView(ViewAdministracionBase):
 
     def get_add(self, request, context, *args, **kwargs):
         context['form'] = TipoNotificacionForm()
-        return render(request, 'forms/formAdmin.html', context)
+        return render(request, 'core/forms/formAdmin.html', context)
         
     def get_edit(self, request, context, *args, **kwargs):
         context['object'] = tipo = TipoNotificacion.objects.get(pk=self.data.get('id'))
         context['form'] = TipoNotificacionForm(instance=tipo)
-        return render(request, 'forms/formAdmin.html', context)
+        return render(request, 'core/forms/formAdmin.html', context)
     
     def get_delete(self, request, context, *args, **kwargs):
         id = self.data.get('id', None)

@@ -7,6 +7,7 @@ from core.views_admin import ParametrosAppView, NotificacionesCorreoView, \
 from applications.administracion.views.panel_view import PanelView, api
 from applications.med.views_admin import PRAMAdminView, TecnovigilanciaAdminView
 from core.utils import gestionar_modulos
+from custom_forms.urls import custom_forms_urls
 
 # Definición de las URLs del sistema
 sistema_urls = (
@@ -109,6 +110,11 @@ urls_sistema = (
         "url": 'whatsappbot/',
         "sub_urls": whatsappbot_urls,
     },
+    {
+        "nombre": "Custom Forms",
+        "url": 'custom_forms/',
+        "sub_urls": custom_forms_urls,
+    }
 )
 
 

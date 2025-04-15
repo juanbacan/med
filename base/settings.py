@@ -98,6 +98,8 @@ INSTALLED_APPS = [
     'applications.authentication',
     'applications.main',
     'applications.administracion',
+
+    'custom_forms.apps.CustomFormsConfig',
 ]
 
 MIDDLEWARE = [
