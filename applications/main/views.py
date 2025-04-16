@@ -1,15 +1,22 @@
+import json
+
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib import messages
 from applications.med.forms import PacienteReaccionesAdversasMedicamentosForm, PacienteTecnovigilanciaForm
 from django.template.loader import render_to_string
 
+from core.views import ViewClassBase
 from core.notificaciones import notify_push_app_user
 from core.correos import send_email_thread
 from core.whatsapp import send_whatsapp_message_thread
-from core.utils import error_json, success_json
+from core.utils import error_json, success_json, get_redirect_url
+from custom_forms.utils import guardar_o_actualizar_campos_respuesta
 
 from core.models import CustomUser, AplicacionWeb
+from custom_forms.models import Encuesta, Formulario, RespuestaEncuesta
+
+
 class HomeView(View):
     def get(self, request, *args, **kwargs):
         context = {}
@@ -59,6 +66,44 @@ class PRAMView(View):
         else:
             print("Error en el formulario:", form.errors)
             return error_json(forms=[form])
+
+
+
+class Tecnovigilancia2View(ViewClassBase):
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        if self.action and hasattr(self, f'post_{self.action}'):
+            return getattr(self, f'post_{self.action}')(request, context, *args, **kwargs)
+        return error_json(mensaje="Acción no permitida")
+    
+    def post_responder_encuesta(self, request, context, *args, **kwargs):
+        encuesta = Encuesta.objects.get(pk=self.data.get('id', None))
+        respuestas = json.loads(request.POST.get('respuestas', None))
+
+        respuesta = RespuestaEncuesta.objects.create(
+            encuesta=encuesta,
+            usuario=request.user if request.user.is_authenticated else None,
+            version=encuesta.formulario.version
+        )
+
+        errores = guardar_o_actualizar_campos_respuesta(respuesta, respuestas)
+        if errores:
+            raise ValueError("Error al guardar las respuestas: " + str(errores))
+        
+        messages.success(request, "Encuesta respondida exitosamente")
+        return success_json(mensaje="Encuesta respondida exitosamente", url=get_redirect_url(request, encuesta))
+    
+    
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        if self.action and hasattr(self, f'get_{self.action}'):
+            return getattr(self, f'get_{self.action}')(request, context, *args, **kwargs)
+
+        context['encuesta'] = encuesta = Encuesta.objects.get(pk=1)
+        context['formulario'] = encuesta.formulario
+        return render(request, 'main/tecnovigilancia2.html', context)
+
 
 class TecnovigilanciaView(View):
     def get(self, request, *args, **kwargs):
